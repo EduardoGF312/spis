@@ -7,20 +7,23 @@ const App = () => {
   const [sensor, setSensor] = useState(0);
   const [bpm, setBPM] = useState(null);
   const [spo2, setSpO2] = useState(null);
+  const [temp, setTemp] = useState(null);
   const [contador, setContador] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://blynk.cloud/external/api/get?token=ik86R45NKaQc25kh2ziw2-wjIjEX1gz8&v0&v1&v2&v3');
+        const response = await axios.get('http://blynk.cloud/external/api/get?token=ik86R45NKaQc25kh2ziw2-wjIjEX1gz8&v0&v1&v2&v3&v4');
         const sensorValue = response.data.v0;
         const bpmValue = response.data.v1;
         const spo2Value = response.data.v2;
         const contadorValue = response.data.v3;
+        const tempValue = response.data.v4;
         setSensor(sensorValue);
         setBPM(bpmValue);
         setSpO2(spo2Value);
         setContador(contadorValue);
+        setTemp(tempValue);
       } catch (error) {
         console.log(error);
       }
@@ -70,8 +73,6 @@ const App = () => {
 
  
     <View style={styles.container}>
-      {contador == 50 ? (
-        <>
           <CircularProgress
             value={bpm}
             radius={100}
@@ -96,13 +97,18 @@ const App = () => {
             inActiveStrokeWidth={6}
             duration={1000}
           />
-        </>
-      ) : (
-        <>
-          <Text style={{ fontSize: 40 }}>Recolectando muestras {contador} de 50</Text>
-          <Text style={{ fontSize: 20 }}>No quites tu dedo del sensor!</Text>
-        </>
-      )}
+          <CircularProgress
+            value={temp}
+            radius={100}
+            maxValue={100}
+            title={'Temperatura'}
+            titleColor={'black'}
+            titleStyle={{ fontWeight: 'bold' }}
+            inActiveStrokeColor={'#56d2fb'}
+            inActiveStrokeOpacity={0.2}
+            inActiveStrokeWidth={6}
+            duration={1000}
+          />
     </View >
   );
 };
