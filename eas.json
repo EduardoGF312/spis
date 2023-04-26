@@ -15,7 +15,7 @@
       "ios": {
         "resourceClass": "m-medium"
       },
-      "android":{
+      "android": {
         "buildType": "apk"
       }
     },
